@@ -1,26 +1,163 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* 1. SISTEMA DE DESIGN (Variáveis Refinadas) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #020617;
+  --foreground: #f8fafc;
+  
+  /* Cores de marca com escala de opacidade */
+  --primary: #2563eb;
+  --primary-glow: rgba(37, 99, 235, 0.15);
+  --accent: #38bdf8;
+  
+  /* Estados e Feedback */
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  
+  /* Superfícies (Glassmorphism de Elite) */
+  --glass-bg: rgba(15, 23, 42, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --grid-color: rgba(255, 255, 255, 0.02);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* O RESTANTE DO SEU CÓDIGO CONTINUA IGUAL ABAIXO... */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* 2. RESET & BASE PERFORMANCE */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+*::selection {
+  background: rgba(37, 99, 235, 0.4);
+  color: #fff;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark; /* Essencial para componentes nativos do navegador */
 }
 
 body {
-  background: var(--background);
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter Variable', sans-serif; /* Use fontes variáveis para melhor renderização */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* 3. EFEITOS DE FUNDO (Camadas Otimizadas) */
+.bg-orchestrator {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Grid sutil (Padrão SaaS Moderno) */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(circle at center, black, transparent 80%);
+}
+
+/* Spots de luz dinâmicos */
+.bg-spot-primary {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, var(--primary-glow), transparent 70%);
+  filter: blur(100px);
+  opacity: 0.6;
+}
+
+/* 4. UTILITIES PROFISSIONAIS */
+
+/* Glassmorphism Real */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.5);
+}
+
+/* Gradiente de Texto (Efeito Silver/White) */
+.text-premium {
+  background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Borda Dinâmica (Efeito Linear/Vercel) */
+.border-shimmer {
+  position: relative;
+  border-radius: inherit;
+}
+
+.border-shimmer::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(
+    45deg, 
+    transparent, 
+    rgba(255,255,255,0.1), 
+    transparent
+  );
+  border-radius: inherit;
+  z-index: -1;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+/* 5. SCROLLBAR (Discreta e Moderna) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* 6. ANIMAÇÕES SUAVES */
+@keyframes soft-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-soft-float {
+  animation: soft-float 5s ease-in-out infinite;
+}
+
+/* Responsividade de Grid */
+@media (max-width: 768px) {
+  .bg-grid { background-size: 40px 40px; }
 }
